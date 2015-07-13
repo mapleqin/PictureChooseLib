@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="net.soulwolf.image.picturelib" >
+
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name" >
+        <activity
+            android:name=".ui.PictureChooseActivity"
+            android:label="@string/title_activity_picture_choose" >
+        </activity>
+        <activity
+            android:name=".ui.GalleryChooseActivity"
+            android:label="@string/title_activity_gallery_choose" >
+        </activity>
+    </application>
+
+</manifest>

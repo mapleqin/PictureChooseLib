@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pc_title_bar">#FF16C2DD</color>
+    <color name="pc_state_pressed">#FF1088DD</color>
+</resources>

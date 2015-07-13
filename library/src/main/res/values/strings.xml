@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Library</string>
+    <string name="title_activity_picture_choose">PictureChooseActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="ps_picture_choose">选择图片</string>
+    <string name="ps_gallery_choose">选择相册</string>
+    <string name="ps_gallery">相册</string>
+    <string name="ps_cancel">取消</string>
+    <string name="ps_complete">完成</string>
+    <string name="title_activity_gallery_choose">GalleryChooseActivity</string>
+</resources>
