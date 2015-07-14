@@ -82,7 +82,9 @@ public class PictureChooseAdapter extends BaseAdapter {
         }
         // load image
         String url = getItem(position);
-        Picasso.with(mContext).load(new File(url)).into(holder.mPictureView);
+        Picasso.with(mContext)
+                .load(new File(url)).error(R.drawable.pd_empty_picture)
+                .into(holder.mPictureView);
         holder.mPictureState.setTag(R.id.pi_position, position);
         holder.mPictureState.setOnCheckedChangeListener(getCheckedChangeListener());
         return convertView;

@@ -1,12 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/pc_default_pager">
 
     <include layout="@layout/pl_title_bar_layout"/>
 
-    <ListView
-        android:id="@+id/pi_gallery_choose_list"
+    <GridView
+        android:id="@+id/pi_gallery_choose_grid"
         android:layout_width="match_parent"
+        android:horizontalSpacing="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:verticalSpacing="8dp"
+        android:numColumns="2"
         android:layout_height="match_parent"/>
 </LinearLayout>

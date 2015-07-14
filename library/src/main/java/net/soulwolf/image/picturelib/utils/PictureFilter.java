@@ -1,8 +1,6 @@
 /**
  * <pre>
- * Copyright 2015 Soulwolf Ching
- * Copyright 2015 The Android Open Source Project for PictureLib
- *
+ * Copyright (C) 2015  Soulwolf PictureChooseLib
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,13 +16,17 @@
  */
 package net.soulwolf.image.picturelib.utils;
 
+import java.io.File;
+import java.io.FileFilter;
+
 /**
- * author: Soulwolf Created on 2015/7/13 23:12.
- * email : Ching.Soulwolf@gmail.com
+ * author : Soulwolf Create by 2015/7/14 18:11
+ * email  : ToakerQin@gmail.com.
  */
-public interface Constants {
+public class PictureFilter implements FileFilter {
 
-    String MAX_PICTURE_COUNT                                = "max_picture_count";
-
-    String GALLERY_CHOOSE_PATH                              = "gallery_choose_path";
+    @Override
+    public boolean accept(File file) {
+        return file != null && Utils.isPicture(file.getName());
+    }
 }

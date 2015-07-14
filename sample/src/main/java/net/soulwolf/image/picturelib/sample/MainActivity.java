@@ -5,14 +5,30 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.toaker.common.tlog.TLog;
+
+import net.soulwolf.image.picturelib.PictureProcess;
+import net.soulwolf.image.picturelib.listener.OnPicturePickListener;
+
+import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnPicturePickListener {
+
+    static final boolean DEBUG = true;
+
+    static final String  LOG_TAG = "MainActivity:";
+
+    PictureProcess mPictureProcess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mPictureProcess = new PictureProcess(this);
+
     }
 
     @Override
@@ -22,9 +38,14 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void onClick(View view){
+        mPictureProcess.execute(this);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        mPictureProcess.onProcessResult(requestCode,resultCode,data);
     }
 
     @Override
@@ -40,5 +61,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSuccess(List<String> pictures) {
+        if(DEBUG){
+            TLog.i(LOG_TAG,"OnSuccess:%s",pictures);
+        }
+    }
+
+    @Override
+    public void onError(Exception e) {
+        TLog.e(LOG_TAG,"onError",e);
     }
 }

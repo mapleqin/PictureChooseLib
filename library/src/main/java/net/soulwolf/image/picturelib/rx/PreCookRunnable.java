@@ -1,8 +1,6 @@
 /**
  * <pre>
- * Copyright 2015 Soulwolf Ching
- * Copyright 2015 The Android Open Source Project for PictureLib
- *
+ * Copyright (C) 2015  Soulwolf PictureChooseLib
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,15 +14,22 @@
  * limitations under the License.
  * </pre>
  */
-package net.soulwolf.image.picturelib.utils;
+package net.soulwolf.image.picturelib.rx;
 
 /**
- * author: Soulwolf Created on 2015/7/13 23:12.
- * email : Ching.Soulwolf@gmail.com
+ * author : Soulwolf Create by 2015/7/14 16:46
+ * email  : ToakerQin@gmail.com.
  */
-public interface Constants {
+public class PreCookRunnable implements Runnable {
 
-    String MAX_PICTURE_COUNT                                = "max_picture_count";
+    CookedCircular<?> mCookedCircular;
 
-    String GALLERY_CHOOSE_PATH                              = "gallery_choose_path";
+    public PreCookRunnable(CookedCircular<?> circular) {
+        this.mCookedCircular = circular;
+    }
+
+    @Override
+    public void run() {
+        mCookedCircular.onPreCook();
+    }
 }

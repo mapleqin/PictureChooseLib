@@ -42,6 +42,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.pa_slide_left_enter, R.anim.pa_slide_right_exit);
     }
 
     protected void setLeftText(@StringRes int redId){
@@ -73,6 +74,12 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void onRightClick(View view){
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.pa_slide_right_back_in,R.anim.pa_slide_left_back_out);
     }
 
     @Override

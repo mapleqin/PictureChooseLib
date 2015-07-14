@@ -19,11 +19,14 @@
 package net.soulwolf.image.picturelib.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Collection;
 
 /**
  * author: Soulwolf Created on 2015/7/13 22:56.
@@ -58,6 +61,33 @@ public class Utils {
     }
 
     public static boolean isPicture(String fileName) {
-        return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png");
+        return Drawable.createFromPath(fileName) != null;
+    }
+
+    public static String folderName(String path){
+        if(TextUtils.isEmpty(path)){
+            return path;
+        }
+        int lastIndexOf = path.lastIndexOf('/');
+        if(lastIndexOf != -1){
+            return path.substring(lastIndexOf + 1,path.length());
+        }
+        return path;
+    }
+
+    public static String and(String ... value){
+        StringBuilder builder = new StringBuilder();
+        for (String str:value){
+            builder.append(str);
+        }
+        return builder.toString();
+    }
+
+    public static <T> int arraySize(T [] arr){
+        return arr == null ? 0 : arr.length;
+    }
+
+    public static int collectionSize(Collection collection){
+        return collection == null ? 0 : collection.size();
     }
 }
