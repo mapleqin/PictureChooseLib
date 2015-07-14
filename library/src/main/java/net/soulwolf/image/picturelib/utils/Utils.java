@@ -19,6 +19,7 @@
 package net.soulwolf.image.picturelib.utils;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
@@ -61,7 +62,10 @@ public class Utils {
     }
 
     public static boolean isPicture(String fileName) {
-        return Drawable.createFromPath(fileName) != null;
+        return fileName.endsWith(".jpg")
+                || fileName.endsWith(".jpeg")
+                || fileName.endsWith(".bmp")
+                || fileName.endsWith(".png");
     }
 
     public static String folderName(String path){

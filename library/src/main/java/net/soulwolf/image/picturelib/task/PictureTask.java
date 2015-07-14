@@ -20,6 +20,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import com.toaker.common.tlog.TLog;
 
@@ -88,7 +89,7 @@ public class PictureTask {
         }
         ArrayList<String> pictures = new ArrayList<String>();
         for (String name:pictureNames){
-            if(Utils.isPicture(name)){
+            if(Utils.isPicture(name) && !TextUtils.isEmpty(name)){
                 pictures.add(Utils.and(galleryPath,File.separator,name));
             }
         }
@@ -109,7 +110,10 @@ public class PictureTask {
         List<String> recentlyPictures = new ArrayList<String>();
         if (cursor.moveToLast()) {
             while (true) {
-                recentlyPictures.add(cursor.getString(0));
+                String path = cursor.getString(0);
+                if(!TextUtils.isEmpty(path)){
+                    recentlyPictures.add(path);
+                }
                 if (recentlyPictures.size() >= maxCount || !cursor.moveToPrevious()) {
                     break;
                 }

@@ -31,6 +31,13 @@ public class ExecutorDelivery {
 
     /**
      * Creates a new response delivery interface.
+     */
+    public ExecutorDelivery() {
+        this(null);
+    }
+
+    /**
+     * Creates a new response delivery interface.
      * @param handler {@link Handler} to post responses on
      */
     public ExecutorDelivery(final Handler handler) {
@@ -38,7 +45,11 @@ public class ExecutorDelivery {
         mResponsePoster = new Executor() {
             @Override
             public void execute(Runnable command) {
-                handler.post(command);
+                if(handler == null){
+                    new Thread(command).start();
+                }else {
+                    handler.post(command);
+                }
             }
         };
     }

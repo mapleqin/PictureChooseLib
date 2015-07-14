@@ -9,8 +9,11 @@
     <GridView
         android:id="@+id/pi_picture_choose_grid"
         android:layout_width="match_parent"
-        android:horizontalSpacing="3dp"
-        android:verticalSpacing="3dp"
+        android:horizontalSpacing="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:verticalSpacing="8dp"
         android:layout_height="match_parent"
         android:numColumns="3"/>
 

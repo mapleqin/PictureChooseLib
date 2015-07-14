@@ -7,26 +7,11 @@
     android:background="@color/pc_gallery_bg">
 
     <ImageView
-        android:id="@+id/pi_picture_choose_item_image"
+        android:id="@+id/pi_picture_item_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/pd_empty_picture"
         android:layout_centerInParent="true" />
-
-    <FrameLayout
-        android:id="@+id/pi_picture_choose_item_select"
-        android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent"
-        android:background="@color/pc_black_t_pic">
-
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:src="@drawable/pd_selector"
-            android:layout_gravity="center"/>
-
-    </FrameLayout>
 
 </net.soulwolf.image.picturelib.view.SquareLayout>

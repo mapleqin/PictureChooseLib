@@ -61,6 +61,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         this.mActionRight.setText(redId);
     }
 
+    protected void setTitleText(String text){
+        if(mTitleText == null){
+            this.mTitleText = (TextView) findViewById(R.id.pi_title_bar_title);
+        }
+        this.mTitleText.setText(text);
+    }
+
     protected void setTitleText(@StringRes int redId){
         if(mTitleText == null){
             this.mTitleText = (TextView) findViewById(R.id.pi_title_bar_title);
@@ -90,4 +97,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             onRightClick(v);
         }
     }
+
+//    protected String getString(@StringRes int resId,Object ... args){
+//        return getResources().getString(resId,args);
+//    }
 }

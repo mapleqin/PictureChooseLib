@@ -28,6 +28,7 @@ import android.text.TextUtils;
 
 import com.toaker.common.tlog.TLog;
 
+import net.soulwolf.image.picturelib.adapter.PictureChooseAdapter;
 import net.soulwolf.image.picturelib.exception.FileCreateException;
 import net.soulwolf.image.picturelib.exception.PhotographException;
 import net.soulwolf.image.picturelib.exception.PictureCropException;
@@ -49,6 +50,8 @@ public class PictureProcess {
     static final boolean DEBUG = true;
 
     static final String LOG_TAG = "PictureProcess:";
+
+    static final int GALLERY_REQUEST_CODE = 1104;
 
     static final int CAMERA_REQUEST_CODE = 1105;
 
@@ -131,6 +134,21 @@ public class PictureProcess {
                     mOnPicturePickListener.onError(new PictureCropException("resultCode != Activity.RESULT_OK || data == null"));
                 }
             }
+        }else if(requestCode == PictureProcess.GALLERY_REQUEST_CODE){
+            if(resultCode == PictureChooseActivity.RESULT_OK && data != null){
+                ArrayList<String> picture = data.getStringArrayListExtra(Constants.PICTURE_CHOOSE_LIST);
+                if(isClip && picture != null && picture.size() == 1){
+                    corpPicture(new File(picture.get(0)));
+                }else {
+                    onSuccess(picture);
+                }
+            }
+        }
+    }
+
+    protected void onSuccess(List<String> pictures){
+        if(mOnPicturePickListener != null){
+            mOnPicturePickListener.onSuccess(pictures);
         }
     }
 
@@ -202,7 +220,7 @@ public class PictureProcess {
     protected void executeGallery() {
         Intent intent = new Intent(mContext, PictureChooseActivity.class);
         intent.putExtra(Constants.MAX_PICTURE_COUNT,mMaxPictureCount);
-        mContext.startActivity(intent);
+        mContext.startActivityForResult(intent,GALLERY_REQUEST_CODE);
     }
 
     protected void executeCamera() {

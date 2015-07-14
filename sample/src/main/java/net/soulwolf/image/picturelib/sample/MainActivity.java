@@ -1,17 +1,24 @@
 package net.soulwolf.image.picturelib.sample;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.ColorRes;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.GridView;
 
 import com.toaker.common.tlog.TLog;
 
+import net.soulwolf.image.picturelib.PictureFrom;
 import net.soulwolf.image.picturelib.PictureProcess;
 import net.soulwolf.image.picturelib.listener.OnPicturePickListener;
+import net.soulwolf.image.picturelib.sample.adapter.PictureAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,44 +30,54 @@ public class MainActivity extends AppCompatActivity implements OnPicturePickList
 
     PictureProcess mPictureProcess;
 
+    Toolbar mToolbar;
+
+    GridView mPictureGrid;
+
+    List<String> mPictureList;
+
+    PictureAdapter mPictureAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mToolbar = (Toolbar) findViewById(R.id.pi_toolbar);
+        setSupportActionBar(mToolbar);
+        mPictureGrid = (GridView) findViewById(R.id.pi_grid);
         mPictureProcess = new PictureProcess(this);
 
+        mPictureList = new ArrayList<>();
+        mPictureAdapter = new PictureAdapter(this,mPictureList);
+        mPictureGrid.setAdapter(mPictureAdapter);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void updatePictureList(List<String> list){
+        mPictureList.clear();
+        if(list != null){
+            mPictureList.addAll(list);
+        }
+        mPictureAdapter.notifyDataSetChanged();
     }
 
-    public void onClick(View view){
+    public void onGallery(View view){
+        mPictureProcess.setPictureFrom(PictureFrom.GALLERY);
+        mPictureProcess.setClip(false);
+        mPictureProcess.setMaxPictureCount(5);
+        mPictureProcess.execute(this);
+    }
+
+    public void onCamera(View view){
+        mPictureProcess.setPictureFrom(PictureFrom.CAMERA);
+        mPictureProcess.setClip(true);
+        mPictureProcess.setMaxPictureCount(1);
         mPictureProcess.execute(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mPictureProcess.onProcessResult(requestCode,resultCode,data);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        mPictureProcess.onProcessResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -68,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnPicturePickList
         if(DEBUG){
             TLog.i(LOG_TAG,"OnSuccess:%s",pictures);
         }
+        updatePictureList(pictures);
     }
 
     @Override

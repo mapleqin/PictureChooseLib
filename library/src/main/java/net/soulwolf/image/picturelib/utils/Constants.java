@@ -27,4 +27,6 @@ public interface Constants {
     String MAX_PICTURE_COUNT                                = "max_picture_count";
 
     String GALLERY_CHOOSE_PATH                              = "gallery_choose_path";
+
+    String PICTURE_CHOOSE_LIST                             = "picture_choose_list";
 }

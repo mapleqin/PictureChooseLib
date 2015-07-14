@@ -48,7 +48,7 @@ public class Spicypotable<ENTRY> {
     protected Spicypotable(OnCookPotable<ENTRY> onCookPotable){
         this.mOnCookPotable = onCookPotable;
         this.mMainDelivery = new ExecutorDelivery(new Handler(Looper.getMainLooper()));
-        this.mTreadDelivery = new ExecutorDelivery(new Handler(Looper.myLooper()));
+        this.mTreadDelivery = new ExecutorDelivery();
     }
 
     public void execute(CookedCircular<? super ENTRY> cookedCircular){

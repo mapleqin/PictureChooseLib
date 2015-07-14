@@ -20,6 +20,7 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import net.soulwolf.image.picturelib.model.GalleryListModel;
 import net.soulwolf.image.picturelib.rx.CookKitchen;
@@ -72,15 +73,14 @@ public class GalleryTask {
         if (cursor.moveToLast()) {
             while (true) {
                 String picturePath = cursor.getString(0);
-                if(!Utils.isPicture(picturePath)){
-                    continue;
-                }
                 File parentFile = new File(picturePath).getParentFile();
                 String parentPath = parentFile.getAbsolutePath();
-                if (!cachePath.contains(parentPath)) {
-                    list.add(new GalleryListModel(parentPath, getPictureCount(parentFile),
-                            getFrontPicture(parentFile)));
-                    cachePath.add(parentPath);
+                if (Utils.isPicture(picturePath) && !cachePath.contains(parentPath)) {
+                    String picture = getFrontPicture(parentFile);
+                    if(!TextUtils.isEmpty(picture)){
+                        list.add(new GalleryListModel(parentPath, getPictureCount(parentFile),picture));
+                        cachePath.add(parentPath);
+                    }
                 }
                 if (!cursor.moveToPrevious()) {
                     break;
@@ -97,11 +97,16 @@ public class GalleryTask {
     }
 
     private static String getFrontPicture(File folder) {
-        File[] files = folder.listFiles(/*new PictureFilter()*/);
-        if(files != null && files.length > 0){
-            File file = files[files.length -1];
-            return file != null ? file.getAbsolutePath() : null;
+        File[] files = folder.listFiles(new PictureFilter());
+        if(files == null || files.length == 0){
+            return null;
         }
-        return null;
+        File file;
+        if(files.length == 1){
+            file = files[0];
+        }else {
+            file = files[files.length -1];
+        }
+        return file != null ? file.getAbsolutePath() : null;
     }
 }

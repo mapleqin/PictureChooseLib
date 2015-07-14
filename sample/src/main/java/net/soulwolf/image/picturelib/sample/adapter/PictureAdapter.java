@@ -16,22 +16,20 @@
  * limitations under the License.
  * </pre>
  */
-package net.soulwolf.image.picturelib.adapter;
+package net.soulwolf.image.picturelib.sample.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import net.soulwolf.image.picturelib.R;
+import net.soulwolf.image.picturelib.sample.R;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,21 +37,15 @@ import java.util.List;
  * author: Soulwolf Created on 2015/7/13 23:49.
  * email : Ching.Soulwolf@gmail.com
  */
-public class PictureChooseAdapter extends BaseAdapter {
+public class PictureAdapter extends BaseAdapter {
 
     Context mContext;
 
-    int     mMaxPictureCount;
-
     List<String> mPictureList;
 
-    List<Integer> mPictureChoose;
-
-    public PictureChooseAdapter(Context context,List<String> pictures,int maxCount){
+    public PictureAdapter(Context context, List<String> pictures){
         this.mContext = context;
         this.mPictureList = pictures;
-        this.mMaxPictureCount = maxCount;
-        this.mPictureChoose = new ArrayList<>();
     }
 
     @Override
@@ -76,9 +68,8 @@ public class PictureChooseAdapter extends BaseAdapter {
         ViewHolder holder;
         if(convertView == null){
             holder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.listview_picture_choose_item,null);
-            holder.mPictureView = (ImageView) convertView.findViewById(R.id.pi_picture_choose_item_image);
-            holder.mPictureState = (FrameLayout) convertView.findViewById(R.id.pi_picture_choose_item_select);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.listview_picture_item,null);
+            holder.mPictureView = (ImageView) convertView.findViewById(R.id.pi_picture_item_image);
             convertView.setTag(holder);
         }else {
             holder = (ViewHolder) convertView.getTag();
@@ -88,44 +79,10 @@ public class PictureChooseAdapter extends BaseAdapter {
         Picasso.with(mContext)
                 .load(new File(url)).error(R.drawable.pd_empty_picture)
                 .into(holder.mPictureView);
-        if(mPictureChoose.contains(position)){
-            holder.mPictureState.setVisibility(View.VISIBLE);
-        }else {
-            holder.mPictureState.setVisibility(View.GONE);
-        }
         return convertView;
-    }
-
-    public void addPictureChoose(int position){
-        this.mPictureChoose.add(position);
-    }
-
-    public void removePictureChoose(Object v){
-        this.mPictureChoose.remove(v);
-    }
-
-    public void clearPictureChoose(){
-        this.mPictureChoose.clear();
-    }
-
-    public int pictureChooseSize(){
-        return this.mPictureChoose.size();
-    }
-
-    public ArrayList<String> getPictureChoosePath(){
-        ArrayList<String> pictures = new ArrayList<>();
-        for (int position:mPictureChoose){
-            pictures.add(getItem(position));
-        }
-        return pictures;
-    }
-
-    public boolean contains(int position){
-        return this.mPictureChoose.contains(position);
     }
 
     static class ViewHolder{
         public ImageView mPictureView;
-        public FrameLayout mPictureState;
     }
 }
