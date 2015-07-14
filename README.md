@@ -35,9 +35,8 @@ new OnPicturePickListener(){
    public void onError(Exception e) {
 
    }
-};```
-
----
+};
+```
 
 ## Maven
 	<dependency>
