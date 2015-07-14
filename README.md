@@ -37,6 +37,8 @@ new OnPicturePickListener(){
    }
 };```
 
+---
+
 ## Maven
 	<dependency>
   	    <groupId>net.soulwolf.image</groupId>
