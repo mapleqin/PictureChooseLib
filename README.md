@@ -1,6 +1,8 @@
 # PictureChooseLib
 This is a picture select Android library that supports camera to take pictures, picture gallery multiple choice, image shearing！
 
+For more information please see <a href='http://toaker.github.io/PictureChooseLib'>the website</a>
+
 ## Screenshots
 ![Sample1](Screenshots/1.jpg)
 ![Sample2](Screenshots/2.jpg)
