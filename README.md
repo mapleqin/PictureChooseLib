@@ -2,11 +2,11 @@
 This is a picture select Android library that supports camera to take pictures, picture gallery multiple choice, image shearing！
 
 ## Screenshots
-![Sample1](Screenshots/1.jpg)
-![Sample2](Screenshots/2.jpg)
-![Sample3](Screenshots/3.jpg)
-![Sample4](Screenshots/4.jpg)
-![Sample5](Screenshots/5.jpg)
+![Sample1](https://github.com/Toaker/PictureChooseLib/Screenshots/1.jpg)
+![Sample2](https://github.com/Toaker/PictureChooseLib/Screenshots/2.jpg)
+![Sample3](https://github.com/Toaker/PictureChooseLib/Screenshots/3.jpg)
+![Sample4](https://github.com/Toaker/PictureChooseLib/Screenshots/4.jpg)
+![Sample5](https://github.com/Toaker/PictureChooseLib/Screenshots/5.jpg)
 
 ## PictureChooseLib with Java code
 ```java
