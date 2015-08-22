@@ -4,11 +4,11 @@ This is a picture select Android library that supports camera to take pictures, 
 For more information please see <a href='http://devsoulwolf.github.io/PictureChooseLib'>the website</a>
 
 ## Screenshots
-![Sample1](Screenshots/1.jpg)
-![Sample2](Screenshots/2.jpg)
-![Sample3](Screenshots/3.jpg)
-![Sample4](Screenshots/4.jpg)
-![Sample5](Screenshots/5.jpg)
+![Sample1](https://img.alicdn.com/imgextra/i2/1025192026/TB25BJndVXXXXbmXpXXXXXXXXXX_!!1025192026.jpg_310x310.jpg)
+![Sample2](https://img.alicdn.com/imgextra/i3/1025192026/TB2FEpOdVXXXXXRXXXXXXXXXXXX_!!1025192026.jpg_310x310.jpg)
+![Sample3](https://img.alicdn.com/imgextra/i3/1025192026/TB20W8EdVXXXXbVXXXXXXXXXXXX_!!1025192026.jpg_310x310.jpg)
+![Sample4](https://img.alicdn.com/imgextra/i4/1025192026/TB2jxtudVXXXXaIXpXXXXXXXXXX_!!1025192026.jpg_310x310.jpg)
+![Sample5](https://img.alicdn.com/imgextra/i4/1025192026/TB2BRdFdVXXXXbMXXXXXXXXXXXX_!!1025192026.jpg_310x310.jpg)
 
 ## PictureChooseLib with Java code
 ```java
