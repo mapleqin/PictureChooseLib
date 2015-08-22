@@ -24,15 +24,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.toaker.common.tlog.TLog;
 
-import net.soulwolf.image.picturelib.adapter.PictureChooseAdapter;
 import net.soulwolf.image.picturelib.exception.FileCreateException;
 import net.soulwolf.image.picturelib.exception.PhotographException;
 import net.soulwolf.image.picturelib.exception.PictureCropException;
 import net.soulwolf.image.picturelib.listener.OnPicturePickListener;
+import net.soulwolf.image.picturelib.task.ImageLoadHandler;
+import net.soulwolf.image.picturelib.task.ImageLoadTask;
 import net.soulwolf.image.picturelib.ui.PictureChooseActivity;
 import net.soulwolf.image.picturelib.utils.Constants;
 import net.soulwolf.image.picturelib.utils.Utils;
@@ -59,11 +63,11 @@ public class PictureProcess {
 
     static final String TEMP_FILE_SUFFIX = ".temp";
 
-    static final String CAMERA_TEMP_NAME = "5976cee021f24c51";
-
-    static final String CLIP_TEMP_NAME   = "4613a93e70ae56b5";
+    protected int mTitleBarBackground = 0xFF16C2DD;
 
     protected Activity mContext;
+
+    protected Fragment mFragment;
 
     protected int mMaxPictureCount = 1;
 
@@ -83,9 +87,34 @@ public class PictureProcess {
 
     protected File mCacheDir;
 
-    public PictureProcess(Activity context,String cacheDir){
-        this.mContext = context;
-        if(TextUtils.isEmpty(cacheDir)){
+    public PictureProcess(Context context,File cacheDir){
+        this(null,context,cacheDir);
+    }
+
+    public PictureProcess(Context context){
+        this(context, null);
+    }
+
+    public PictureProcess(Fragment fragment,File cacheDir){
+        this(fragment,null,cacheDir);
+    }
+
+    public PictureProcess(Fragment fragment){
+        this(fragment, null);
+    }
+
+    PictureProcess(Fragment fragment,Context context,File cacheDir){
+        if(fragment == null && context == null){
+            throw new IllegalArgumentException("fragment == null && context == null");
+        }
+        if(fragment != null){
+            this.mFragment = fragment;
+            this.mContext = mFragment.getActivity();
+        }else {
+            this.mContext = (Activity) context;
+        }
+        ImageLoadTask.init(mContext);
+        if(cacheDir == null){
             if(android.os.Environment.getExternalStorageState().equals(
                     android.os.Environment.MEDIA_MOUNTED)){
                 this.mCacheDir = mContext.getExternalCacheDir();
@@ -93,17 +122,12 @@ public class PictureProcess {
                 this.mCacheDir = mContext.getCacheDir();
             }
         }else {
-            this.mCacheDir = new File(cacheDir);
+            this.mCacheDir = cacheDir;
             if(!mCacheDir.mkdirs()){
                 TLog.e(LOG_TAG,"CacheDir mkdirs failure!");
             }
         }
     }
-
-    public PictureProcess(Activity context){
-        this(context, null);
-    }
-
 
     public void onProcessResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == PictureProcess.CAMERA_REQUEST_CODE){
@@ -146,6 +170,14 @@ public class PictureProcess {
         }
     }
 
+    protected void startActivityForResult(Intent intent,int requestCode){
+        if(mFragment != null){
+            mFragment.startActivityForResult(intent,requestCode);
+        }else {
+            mContext.startActivityForResult(intent, requestCode);
+        }
+    }
+
     protected void onSuccess(List<String> pictures){
         if(mOnPicturePickListener != null){
             mOnPicturePickListener.onSuccess(pictures);
@@ -175,11 +207,11 @@ public class PictureProcess {
         intent.putExtra("return-data", true);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true); // no face detection
-        mContext.startActivityForResult(intent, CLIP_REQUEST_CODE);
+        startActivityForResult(intent, CLIP_REQUEST_CODE);
     }
 
     protected File getCropPath() {
-        File file = new File(mCacheDir,String.format("%s%S",CLIP_TEMP_NAME,TEMP_FILE_SUFFIX));
+        File file = new File(mCacheDir,String.format("%s%s",Utils.getTempFileName(),TEMP_FILE_SUFFIX));
         if(file.exists()){
             if(!file.delete()){
                 TLog.e(LOG_TAG,"CropPath delete failure!");
@@ -220,11 +252,12 @@ public class PictureProcess {
     protected void executeGallery() {
         Intent intent = new Intent(mContext, PictureChooseActivity.class);
         intent.putExtra(Constants.MAX_PICTURE_COUNT,mMaxPictureCount);
-        mContext.startActivityForResult(intent,GALLERY_REQUEST_CODE);
+        intent.putExtra(Constants.TITLE_BAR_BACKGROUND,mTitleBarBackground);
+        startActivityForResult(intent, GALLERY_REQUEST_CODE);
     }
 
     protected void executeCamera() {
-        this.mCameraPath = new File(mCacheDir,String.format("%s%s", CAMERA_TEMP_NAME,TEMP_FILE_SUFFIX));
+        this.mCameraPath = new File(mCacheDir,String.format("%s%s", Utils.getTempFileName(),TEMP_FILE_SUFFIX));
         if(mCameraPath.exists()){
             if(!mCameraPath.delete()){
                 TLog.e(LOG_TAG,"CameraPath delete failure!");
@@ -241,7 +274,7 @@ public class PictureProcess {
         }
         Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mCameraPath));
-        mContext.startActivityForResult(intentFromCapture, PictureProcess.CAMERA_REQUEST_CODE);
+        startActivityForResult(intentFromCapture, PictureProcess.CAMERA_REQUEST_CODE);
     }
 
     public void reset(){
@@ -262,11 +295,24 @@ public class PictureProcess {
         this.mClipHeight = clipHeight;
     }
 
+    public void setTitleBarBackground(@ColorInt int backgroundColor){
+        this.mTitleBarBackground = backgroundColor;
+    }
+
     public void setClip(boolean isClip) {
         setClip(isClip,mClipWidth,mClipHeight);
     }
 
     public void setPictureFrom(PictureFrom pictureFrom) {
         this.mPictureFrom = pictureFrom;
+    }
+
+    public void setImageLoadHandler(ImageLoadHandler handler){
+        ImageLoadTask.getInstance().setImageLoadHandler(handler);
+    }
+
+    public void shutdown() {
+        ImageLoadTask.getInstance().shutdown();
+        mOnPicturePickListener = null;
     }
 }

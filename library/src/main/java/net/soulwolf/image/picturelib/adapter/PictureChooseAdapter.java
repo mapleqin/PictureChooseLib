@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import net.soulwolf.image.picturelib.R;
+import net.soulwolf.image.picturelib.task.ImageLoadTask;
+import net.soulwolf.image.picturelib.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -85,9 +87,7 @@ public class PictureChooseAdapter extends BaseAdapter {
         }
         // load image
         String url = getItem(position);
-        Picasso.with(mContext)
-                .load(new File(url)).error(R.drawable.pd_empty_picture)
-                .into(holder.mPictureView);
+        ImageLoadTask.getInstance().display(holder.mPictureView, Utils.urlFromFile(url));
         if(mPictureChoose.contains(position)){
             holder.mPictureState.setVisibility(View.VISIBLE);
         }else {

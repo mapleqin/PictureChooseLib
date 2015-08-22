@@ -30,11 +30,17 @@ public class GalleryChooseActivity extends BaseActivity implements AdapterView.O
 
     GalleryChooseAdapter mGalleryChooseAdapter;
 
+    int mTitleBarBackground = 0xFF16C2DD;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery_choose);
         mGalleryGrid = (GridView) findViewById(R.id.pi_gallery_choose_grid);
+        if(getIntent() != null){
+            mTitleBarBackground = getIntent().getIntExtra(Constants.TITLE_BAR_BACKGROUND,mTitleBarBackground);
+        }
+        setTitleBarBackground(mTitleBarBackground);
         setTitleText(R.string.ps_gallery_choose);
         setRightText(R.string.ps_cancel);
         mGalleryList = new ArrayList<>();

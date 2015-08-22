@@ -21,6 +21,7 @@ package net.soulwolf.image.picturelib.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import java.io.Closeable;
@@ -34,6 +35,8 @@ import java.util.Collection;
  * email : Ching.Soulwolf@gmail.com
  */
 public class Utils {
+
+    static final String KEY = "Soulwolf-PictureLib";
 
     public static boolean saveBitmap(Bitmap bitmap,File file){
         OutputStream os = null;
@@ -93,5 +96,13 @@ public class Utils {
 
     public static int collectionSize(Collection collection){
         return collection == null ? 0 : collection.size();
+    }
+
+    public static String getTempFileName(){
+        return String.format("%s%s%s",KEY,System.currentTimeMillis(),KEY);
+    }
+
+    public static String urlFromFile(String filePath){
+        return String.format("%s%s","file://",filePath);
     }
 }

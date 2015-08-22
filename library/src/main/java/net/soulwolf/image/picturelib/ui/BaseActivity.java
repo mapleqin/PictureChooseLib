@@ -19,10 +19,12 @@
 package net.soulwolf.image.picturelib.ui;
 
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.soulwolf.image.picturelib.R;
@@ -38,6 +40,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected Button   mActionLeft;
 
     protected Button   mActionRight;
+
+    protected RelativeLayout mTitleBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +85,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     protected void onRightClick(View view){
 
+    }
+
+    protected void setTitleBarBackground(@ColorInt int background){
+        if(mTitleBar == null){
+            mTitleBar = (RelativeLayout) findViewById(R.id.pi_title_bar);
+        }
+        mTitleBar.setBackgroundColor(background);
     }
 
     @Override

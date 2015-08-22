@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 
 import net.soulwolf.image.picturelib.R;
 import net.soulwolf.image.picturelib.model.GalleryListModel;
+import net.soulwolf.image.picturelib.task.ImageLoadTask;
 import net.soulwolf.image.picturelib.utils.Utils;
 
 import java.io.File;
@@ -78,7 +79,7 @@ public class GalleryChooseAdapter extends BaseAdapter {
         GalleryListModel item = getItem(position);
         holder.mGalleryName.setText(String.format("%s(%s)",
                 Utils.folderName(item.mGalleryPath),item.mPictureCount));
-        Picasso.with(mContext).load(new File(item.mFrontPath)).into(holder.mPictureView);
+        ImageLoadTask.getInstance().display(holder.mPictureView, Utils.urlFromFile(item.mFrontPath));
         return convertView;
     }
 

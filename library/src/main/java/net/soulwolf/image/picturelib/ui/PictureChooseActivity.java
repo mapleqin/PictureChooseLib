@@ -34,14 +34,18 @@ public class PictureChooseActivity extends BaseActivity implements AdapterView.O
 
     int mMaxPictureCount;
 
+    int mTitleBarBackground = 0xFF16C2DD;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_picture_choose);
         if(getIntent() != null){
             mMaxPictureCount = getIntent().getIntExtra(Constants.MAX_PICTURE_COUNT,1);
+            mTitleBarBackground = getIntent().getIntExtra(Constants.TITLE_BAR_BACKGROUND,mTitleBarBackground);
         }
         mPictureGrid = (GridView) findViewById(R.id.pi_picture_choose_grid);
+        setTitleBarBackground(mTitleBarBackground);
         setTitleText(R.string.ps_picture_choose);
         setLeftText(R.string.ps_gallery);
         setRightText(R.string.ps_complete);
@@ -104,7 +108,9 @@ public class PictureChooseActivity extends BaseActivity implements AdapterView.O
     @Override
     protected void onLeftClick(View view) {
         super.onLeftClick(view);
-        startActivityForResult(new Intent(this,GalleryChooseActivity.class),GALLERY_REQUEST_CODE);
+        Intent intent = new Intent(this, GalleryChooseActivity.class);
+        intent.putExtra(Constants.TITLE_BAR_BACKGROUND,mTitleBarBackground);
+        startActivityForResult(intent, GALLERY_REQUEST_CODE);
     }
 
     @Override

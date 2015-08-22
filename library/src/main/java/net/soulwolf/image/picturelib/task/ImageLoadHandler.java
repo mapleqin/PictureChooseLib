@@ -1,7 +1,7 @@
 /**
  * <pre>
  * Copyright 2015 Soulwolf Ching
- * Copyright 2015 The Android Open Source Project for PictureLib
+ * Copyright 2015 The Android Open Source Project for PictureChooseLib
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,17 @@
  * limitations under the License.
  * </pre>
  */
-package net.soulwolf.image.picturelib.utils;
+package net.soulwolf.image.picturelib.task;
+
+import android.widget.ImageView;
 
 /**
- * author: Soulwolf Created on 2015/7/13 23:12.
+ * author: Soulwolf Created on 2015/8/22 16:36.
  * email : Ching.Soulwolf@gmail.com
  */
-public interface Constants {
+public interface ImageLoadHandler {
 
-    String TITLE_BAR_BACKGROUND                             = "title_bar_background";
+    public <TARGET extends ImageView> void display(TARGET target, String url);
 
-    String MAX_PICTURE_COUNT                                = "max_picture_count";
-
-    String GALLERY_CHOOSE_PATH                              = "gallery_choose_path";
-
-    String PICTURE_CHOOSE_LIST                              = "picture_choose_list";
+    public void shutdown();
 }
