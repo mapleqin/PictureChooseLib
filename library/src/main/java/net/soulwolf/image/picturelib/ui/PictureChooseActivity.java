@@ -134,16 +134,16 @@ public class PictureChooseActivity extends BaseActivity implements AdapterView.O
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if(mPictureChooseAdapter.contains(position)){
-            mPictureChooseAdapter.removePictureChoose(position);
+            mPictureChooseAdapter.removePictureChoose(view,position);
         }else {
             if(mPictureChooseAdapter.pictureChooseSize() >= mMaxPictureCount){
                 Toast.makeText(this,
                         getString(R.string.ps_select_up_count,mMaxPictureCount),Toast.LENGTH_LONG).show();
                 return;
             }
-            mPictureChooseAdapter.addPictureChoose(position);
+            mPictureChooseAdapter.addPictureChoose(view,position);
         }
-        mPictureChooseAdapter.notifyDataSetChanged();
+        //mPictureChooseAdapter.notifyDataSetChanged();
         if(mPictureChooseAdapter.pictureChooseSize() == 0){
             setTitleText(getString(R.string.ps_picture_choose));
         }else {

@@ -19,9 +19,6 @@
 package net.soulwolf.image.picturelib.utils;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.text.TextUtils;
 
 import java.io.Closeable;
@@ -38,11 +35,17 @@ public class Utils {
 
     static final String KEY = "Soulwolf-PictureLib";
 
-    public static boolean saveBitmap(Bitmap bitmap,File file){
+    public static boolean saveBitmap(Bitmap bitmap,File file,int width,int height){
         OutputStream os = null;
         try {
+            int quality = 100;
+            float maxSize = Math.max(width,height);
+            int bMaxSize = Math.max(bitmap.getWidth(),bitmap.getHeight());
+            if(maxSize > bMaxSize){
+                quality = (int) (bMaxSize / maxSize * 100);
+            }
             os = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,os);
+            bitmap.compress(Bitmap.CompressFormat.JPEG,quality,os);
             return true;
         }catch (Exception e){
             return false;

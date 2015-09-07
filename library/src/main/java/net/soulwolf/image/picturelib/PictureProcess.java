@@ -25,9 +25,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 
 import com.toaker.common.tlog.TLog;
 
@@ -146,7 +144,7 @@ public class PictureProcess {
         }else if(requestCode == PictureProcess.CLIP_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK && data != null){
                 Bitmap bitmap = data.getParcelableExtra("data");
-                if(bitmap != null && Utils.saveBitmap(bitmap,mCropPath)){
+                if(bitmap != null && Utils.saveBitmap(bitmap,mCropPath,mClipWidth,mClipHeight)){
                     onSuccess(mCropPath);
                 }else {
                     if(mOnPicturePickListener != null){
@@ -201,8 +199,8 @@ public class PictureProcess {
         intent.putExtra("crop", "true");
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        intent.putExtra("outputX", mClipWidth);
-        intent.putExtra("outputY", mClipHeight);
+        //intent.putExtra("outputX", mClipWidth);
+        //intent.putExtra("outputY", mClipHeight);
         intent.putExtra("scale", true);
         intent.putExtra("return-data", true);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());

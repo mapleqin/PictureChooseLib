@@ -26,13 +26,10 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
 import net.soulwolf.image.picturelib.R;
 import net.soulwolf.image.picturelib.task.ImageLoadTask;
 import net.soulwolf.image.picturelib.utils.Utils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,19 +86,31 @@ public class PictureChooseAdapter extends BaseAdapter {
         String url = getItem(position);
         ImageLoadTask.getInstance().display(holder.mPictureView, Utils.urlFromFile(url));
         if(mPictureChoose.contains(position)){
-            holder.mPictureState.setVisibility(View.VISIBLE);
+            if(holder.mPictureState.getVisibility() != View.VISIBLE){
+                holder.mPictureState.setVisibility(View.VISIBLE);
+            }
         }else {
-            holder.mPictureState.setVisibility(View.GONE);
+            if(holder.mPictureState.getVisibility() != View.GONE){
+                holder.mPictureState.setVisibility(View.GONE);
+            }
         }
         return convertView;
     }
 
-    public void addPictureChoose(int position){
-        this.mPictureChoose.add(position);
+    public void addPictureChoose(View view,int position){
+        ViewHolder holder = (ViewHolder) view.getTag();
+        if(holder != null){
+            this.mPictureChoose.add(position);
+            holder.mPictureState.setVisibility(View.VISIBLE);
+        }
     }
 
-    public void removePictureChoose(Object v){
-        this.mPictureChoose.remove(v);
+    public void removePictureChoose(View view,Object v){
+        ViewHolder holder = (ViewHolder) view.getTag();
+        if(holder != null){
+            this.mPictureChoose.remove(v);
+            holder.mPictureState.setVisibility(View.GONE);
+        }
     }
 
     public void clearPictureChoose(){
