@@ -20,6 +20,7 @@ package net.soulwolf.image.picturelib.task;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.widget.ImageView;
 
@@ -48,11 +49,15 @@ public class DefaultImageLoadHandler implements ImageLoadHandler {
     @Override
     public Bitmap loadSync(Uri uri, int width, int height) {
         try {
-            RequestCreator load = mPicasso.load(uri);
-            if(width > 0 && height > 0){
-                load.resize(width,height);
-            }
-            return load.get();
+//            Bitmap bitmap = ;
+//            RequestCreator load = mPicasso.load(uri);
+//            if(width > 0 && height > 0){
+//                load.resize(width,height);
+//            }
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.outWidth = 300;
+            options.outHeight = 300;
+            return BitmapFactory.decodeFile(uri.getPath(),options);
         }catch (Exception e){
             return null;
         }

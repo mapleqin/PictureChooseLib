@@ -9,13 +9,14 @@
 
     <FrameLayout
         android:layout_width="match_parent"
+        android:padding="20dp"
         android:layout_height="match_parent">
 
-        <com.edmodo.cropper.CropImageView
+        <net.soulwolf.image.picturelib.view.CropImageView
             android:id="@+id/pi_crop_image_view"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_gravity="center"
-            android:layout_height="wrap_content"/>
+            android:layout_height="300dp"/>
 
         <ProgressBar
             android:id="@+id/pi_crop_image_pro"

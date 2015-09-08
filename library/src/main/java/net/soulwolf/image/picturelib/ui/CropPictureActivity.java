@@ -25,11 +25,11 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.edmodo.cropper.CropImageView;
 
 import net.soulwolf.image.picturelib.R;
 import net.soulwolf.image.picturelib.rx.ResponseHandler;
 import net.soulwolf.image.picturelib.task.ImageLoadTask;
+import net.soulwolf.image.picturelib.view.CropImageView;
 
 import rx.Observer;
 
@@ -48,10 +48,11 @@ public class CropPictureActivity extends BaseActivity {
 
     ProgressBar mProgressBar;
     CropImageView mCropImageView;
-    private int mAspectRatioX = 1;
-    private int mAspectRatioY = 1;
+    private int mAspectRatioX = 10;
+    private int mAspectRatioY = 10;
 
     private Uri mFromUri;
+    private Bitmap mFromBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,20 +67,29 @@ public class CropPictureActivity extends BaseActivity {
 
         mCropImageView = (CropImageView) findViewById(R.id.pi_crop_image_view);
         mProgressBar = (ProgressBar) findViewById(R.id.pi_crop_image_pro);
-        //mCropImageView.setFixedAspectRatio(true);
-        mCropImageView.setAspectRatio(mAspectRatioX,mAspectRatioY);
+        mCropImageView.setFixedAspectRatio(true);
+        //mCropImageView.setAspectRatio(mAspectRatioX, mAspectRatioY);
 
         setLeftText(R.string.ps_cancel);
         setRightText(R.string.ps_complete);
         setTitleText(R.string.ps_picture_crop);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
         initialize();
     }
 
     private void initialize() {
+        System.out.println("------->:" + mCropImageView.getHeight());
         if(mFromUri != null){
-            ImageLoadTask.getInstance().load(mFromUri,mCropImageView.getWidth(),mCropImageView.getHeight())
-                    .subscribe(getBitmapSubscriber());
+            if(mFromBitmap == null){
+                ImageLoadTask.getInstance().load(mFromUri,mCropImageView.getWidth(),mCropImageView.getHeight())
+                        .subscribe(getBitmapSubscriber());
+            }else {
+                mCropImageView.setImageBitmap(mFromBitmap);
+            }
         }
     }
 
@@ -130,6 +140,7 @@ public class CropPictureActivity extends BaseActivity {
             @Override
             public void onSuccess(Bitmap bitmap) throws Exception {
                 hideLoading();
+                mFromBitmap = bitmap;
                 mCropImageView.setImageBitmap(bitmap);
             }
 

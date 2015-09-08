@@ -6,4 +6,5 @@
     <color name="pc_black_t">#55000000</color>
     <color name="pc_black_t_pic">#22000000</color>
     <color name="pc_gallery_bg">#FF16C2DD</color>
+    <color name="black_translucent">#50000000</color>
 </resources>
