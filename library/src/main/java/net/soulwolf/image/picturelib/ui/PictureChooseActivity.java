@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import net.soulwolf.image.picturelib.R;
 import net.soulwolf.image.picturelib.adapter.PictureChooseAdapter;
-import net.soulwolf.image.picturelib.rx.SimpleCookedCircular;
+import net.soulwolf.image.picturelib.rx.ResponseHandler;
 import net.soulwolf.image.picturelib.task.PictureTask;
 import net.soulwolf.image.picturelib.utils.Constants;
 
@@ -68,20 +68,32 @@ public class PictureChooseActivity extends BaseActivity implements AdapterView.O
 
     private void getRecentlyPicture() {
         PictureTask.getRecentlyPicture(getContentResolver(),30)
-                .execute(new SimpleCookedCircular<List<String>>() {
+                .subscribe(new ResponseHandler<List<String>>() {
                     @Override
-                    public void onCooked(List<String> strings) {
+                    public void onSuccess(List<String> strings) throws Exception {
                         updatePictureList(strings);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable error) {
+                        super.onFailure(error);
+                        Toast.makeText(getApplicationContext(),R.string.ps_load_image_error,Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void getPictureForGallery(String folderPath) {
         PictureTask.getPictureForGallery(folderPath)
-                .execute(new SimpleCookedCircular<List<String>>() {
+                .subscribe(new ResponseHandler<List<String>>() {
                     @Override
-                    public void onCooked(List<String> strings) {
+                    public void onSuccess(List<String> strings) throws Exception {
                         updatePictureList(strings);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable error) {
+                        super.onFailure(error);
+                        Toast.makeText(getApplicationContext(),R.string.ps_load_image_error,Toast.LENGTH_SHORT).show();
                     }
                 });
     }

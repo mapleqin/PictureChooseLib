@@ -7,11 +7,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import net.soulwolf.image.picturelib.R;
 import net.soulwolf.image.picturelib.adapter.GalleryChooseAdapter;
 import net.soulwolf.image.picturelib.model.GalleryListModel;
-import net.soulwolf.image.picturelib.rx.SimpleCookedCircular;
+import net.soulwolf.image.picturelib.rx.ResponseHandler;
 import net.soulwolf.image.picturelib.task.GalleryTask;
 import net.soulwolf.image.picturelib.utils.Constants;
 
@@ -59,10 +60,16 @@ public class GalleryChooseActivity extends BaseActivity implements AdapterView.O
 
     private void getGalleryList() {
         GalleryTask.getGalleryList(getContentResolver())
-                .execute(new SimpleCookedCircular<List<GalleryListModel>>() {
+                .subscribe(new ResponseHandler<List<GalleryListModel>>() {
                     @Override
-                    public void onCooked(List<GalleryListModel> galleryListModels) {
+                    public void onSuccess(List<GalleryListModel> galleryListModels) throws Exception {
                         updateGalleryList(galleryListModels);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable error) {
+                        super.onFailure(error);
+                        Toast.makeText(getApplicationContext(), R.string.ps_load_image_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

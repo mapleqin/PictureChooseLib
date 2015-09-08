@@ -19,14 +19,16 @@
 package net.soulwolf.image.picturelib.task;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.widget.ImageView;
 
-import com.squareup.picasso.LruCache;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
+import net.soulwolf.image.picturelib.utils.Utils;
 
-import java.io.File;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * author: Soulwolf Created on 2015/8/22 16:00.
@@ -61,6 +63,24 @@ public final class ImageLoadTask {
 
     public <TARGET extends ImageView> void display(TARGET target,String url) {
         mImageLoadHandler.display(target,url);
+    }
+
+    public Observable<Bitmap> load(final Uri uri,final int width,final int height){
+        return Observable.create(new Observable.OnSubscribe<Bitmap>() {
+            @Override
+            public void call(Subscriber<? super Bitmap> subscriber) {
+                try {
+                    subscriber.onStart();
+                    Bitmap bitmap = mImageLoadHandler.loadSync(uri, width, height);
+                    Utils.checkNullPointer(bitmap);
+                    subscriber.onNext(bitmap);
+                    subscriber.onCompleted();
+                }catch (Exception e){
+                    subscriber.onError(e);
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread());
     }
 
     public void shutdown() {

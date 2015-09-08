@@ -108,4 +108,10 @@ public class Utils {
     public static String urlFromFile(String filePath){
         return String.format("%s%s","file://",filePath);
     }
+
+    public static <T> void checkNullPointer(T t){
+        if(t == null){
+            throw new NullPointerException();
+        }
+    }
 }

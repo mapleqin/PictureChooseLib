@@ -23,7 +23,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.edmodo:cropper:1.0.1'
     compile 'com.toaker.common:tlog:1.0.0'
-
+    compile 'io.reactivex:rxandroid:0.25.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
 }
 apply from: '../gradle-mvn-push.gradle'

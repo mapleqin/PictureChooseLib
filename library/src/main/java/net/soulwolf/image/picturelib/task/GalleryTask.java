@@ -23,10 +23,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import net.soulwolf.image.picturelib.model.GalleryListModel;
-import net.soulwolf.image.picturelib.rx.CookKitchen;
-import net.soulwolf.image.picturelib.rx.OnCookPotable;
-import net.soulwolf.image.picturelib.rx.Spicypotable;
-import net.soulwolf.image.picturelib.rx.ThreadDispatch;
+import net.soulwolf.image.picturelib.rx.ObservableWrapper;
 import net.soulwolf.image.picturelib.utils.PictureFilter;
 import net.soulwolf.image.picturelib.utils.Utils;
 
@@ -35,26 +32,28 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import rx.Observable;
+import rx.Subscriber;
+
 /**
  * author : Soulwolf Create by 2015/7/14 17:58
  * email  : ToakerQin@gmail.com.
  */
 public class GalleryTask {
 
-    public static Spicypotable<List<GalleryListModel>> getGalleryList(final ContentResolver resolver){
-        return Spicypotable.create(new OnCookPotable<List<GalleryListModel>>() {
+    public static Observable<List<GalleryListModel>> getGalleryList(final ContentResolver resolver){
+        return ObservableWrapper.create(new Observable.OnSubscribe<List<GalleryListModel>>() {
             @Override
-            public void perform(CookKitchen<? super List<GalleryListModel>> kitchen) {
+            public void call(Subscriber<? super List<GalleryListModel>> subscriber) {
                 try{
-                    kitchen.onStart();
+                    subscriber.onStart();
                     List<GalleryListModel> models = getGalleryListPath(resolver);
-                    kitchen.onSuccess(models);
+                    subscriber.onNext(models);
                 }catch (Exception e){
-                    kitchen.onError(e);
+                    subscriber.onError(e);
                 }
             }
-        }).cookPotableOn(ThreadDispatch.THREAD)
-        .cookedCircularOn(ThreadDispatch.MAIN_THREAD);
+        });
     }
 
     private static List<GalleryListModel> getGalleryListPath(ContentResolver mContentResolver) {

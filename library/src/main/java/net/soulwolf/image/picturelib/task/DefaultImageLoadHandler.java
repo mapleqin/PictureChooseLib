@@ -19,9 +19,12 @@
 package net.soulwolf.image.picturelib.task;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import net.soulwolf.image.picturelib.R;
 
@@ -40,6 +43,19 @@ public class DefaultImageLoadHandler implements ImageLoadHandler {
     @Override
     public <TARGET extends ImageView> void display(TARGET target, String url) {
         mPicasso.load(url).placeholder(R.color.pc_title_bar).error(R.drawable.pd_empty_picture).into(target);
+    }
+
+    @Override
+    public Bitmap loadSync(Uri uri, int width, int height) {
+        try {
+            RequestCreator load = mPicasso.load(uri);
+            if(width > 0 && height > 0){
+                load.resize(width,height);
+            }
+            return load.get();
+        }catch (Exception e){
+            return null;
+        }
     }
 
     @Override

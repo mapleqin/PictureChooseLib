@@ -1,6 +1,6 @@
 /**
  * <pre>
- * Copyright (C) 2015  Soulwolf PictureChooseLib
+ * Copyright (C) 2015  Soulwolf XiaoDaoW3.0
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,12 +16,19 @@
  */
 package net.soulwolf.image.picturelib.rx;
 
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 /**
- * author : Soulwolf Create by 2015/7/14 15:54
+ * author : Soulwolf Create by 2015/6/26 10:32
  * email  : ToakerQin@gmail.com.
  */
-public enum ThreadDispatch {
+public final class ObservableWrapper {
 
-    MAIN_THREAD,
-    THREAD
+   public static <T> Observable<T> create(Observable.OnSubscribe<T> subscribe){
+       return Observable.create(subscribe)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread());
+   }
 }

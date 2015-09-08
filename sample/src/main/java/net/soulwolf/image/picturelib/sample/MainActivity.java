@@ -1,13 +1,9 @@
 package net.soulwolf.image.picturelib.sample;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.ColorRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 
@@ -62,8 +58,8 @@ public class MainActivity extends AppCompatActivity implements OnPicturePickList
 
     public void onGallery(View view){
         mPictureProcess.setPictureFrom(PictureFrom.GALLERY);
-        mPictureProcess.setClip(false);
-        mPictureProcess.setMaxPictureCount(5);
+        mPictureProcess.setClip(true);
+        mPictureProcess.setMaxPictureCount(1);
         mPictureProcess.execute(this);
     }
 

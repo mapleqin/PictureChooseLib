@@ -18,6 +18,8 @@
  */
 package net.soulwolf.image.picturelib.task;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.widget.ImageView;
 
 /**
@@ -27,6 +29,8 @@ import android.widget.ImageView;
 public interface ImageLoadHandler {
 
     public <TARGET extends ImageView> void display(TARGET target, String url);
+
+    public Bitmap loadSync(Uri uri,int width,int height);
 
     public void shutdown();
 }

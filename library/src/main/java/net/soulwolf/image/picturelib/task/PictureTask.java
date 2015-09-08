@@ -24,15 +24,15 @@ import android.text.TextUtils;
 
 import com.toaker.common.tlog.TLog;
 
-import net.soulwolf.image.picturelib.rx.CookKitchen;
-import net.soulwolf.image.picturelib.rx.OnCookPotable;
-import net.soulwolf.image.picturelib.rx.Spicypotable;
-import net.soulwolf.image.picturelib.rx.ThreadDispatch;
+import net.soulwolf.image.picturelib.rx.ObservableWrapper;
 import net.soulwolf.image.picturelib.utils.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * author : Soulwolf Create by 2015/7/14 17:15
@@ -44,42 +44,42 @@ public class PictureTask {
 
     private static final String LOG_TAG = "PictureTask:";
 
-    public static Spicypotable<List<String>> getRecentlyPicture(final ContentResolver resolver,final int maxCount){
-        return Spicypotable.create(new OnCookPotable<List<String>>() {
+    public static Observable<List<String>> getRecentlyPicture(final ContentResolver resolver,final int maxCount){
+        return ObservableWrapper.create(new Observable.OnSubscribe<List<String>>() {
             @Override
-            public void perform(CookKitchen<? super List<String>> kitchen) {
+            public void call(Subscriber<? super List<String>> subscriber) {
                 try{
-                    kitchen.onStart();
+                    subscriber.onStart();
                     List<String> picturePath = getRecentlyPicturePath(resolver, maxCount);
                     if(DEBUG){
                         TLog.i(LOG_TAG,"getRecentlyPicture :perform:%s",picturePath);
                     }
-                    kitchen.onSuccess(picturePath);
+                    subscriber.onNext(picturePath);
+                    subscriber.onCompleted();
                 }catch (Exception e){
-                    kitchen.onError(e);
+                    subscriber.onError(e);
                 }
             }
-        }).cookPotableOn(ThreadDispatch.THREAD)
-        .cookedCircularOn(ThreadDispatch.MAIN_THREAD);
+        });
     }
 
-    public static Spicypotable<List<String>> getPictureForGallery(final String galleryDir){
-        return Spicypotable.create(new OnCookPotable<List<String>>() {
+    public static Observable<List<String>> getPictureForGallery(final String galleryDir){
+        return ObservableWrapper.create(new Observable.OnSubscribe<List<String>>() {
             @Override
-            public void perform(CookKitchen<? super List<String>> kitchen) {
+            public void call(Subscriber<? super List<String>> subscriber) {
                 try{
-                    kitchen.onStart();
+                    subscriber.onStart();
                     List<String> picturePath = getPictureListForGallery(galleryDir);
                     if(DEBUG){
                         TLog.i(LOG_TAG,"getPictureForGallery :perform:%s",picturePath);
                     }
-                    kitchen.onSuccess(picturePath);
+                    subscriber.onNext(picturePath);
+                    subscriber.onCompleted();
                 }catch (Exception e){
-                    kitchen.onError(e);
+                    subscriber.onError(e);
                 }
             }
-        }).cookPotableOn(ThreadDispatch.THREAD)
-        .cookedCircularOn(ThreadDispatch.MAIN_THREAD);
+        });
     }
 
     private static List<String> getPictureListForGallery(String galleryPath) {

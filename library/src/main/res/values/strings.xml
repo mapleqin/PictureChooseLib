@@ -2,9 +2,7 @@
     <string name="app_name">Library</string>
     <string name="title_activity_picture_choose">PictureChooseActivity</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
+    <string name="ps_picture_crop">图片裁剪</string>
     <string name="ps_picture_choose">选择图片</string>
     <string name="ps_picture_choose_count">选择图片(%s)</string>
     <string name="ps_gallery_choose">选择相册</string>
@@ -13,4 +11,6 @@
     <string name="ps_complete">完成</string>
     <string name="ps_select_up_count">最多只能选择%s张图片</string>
     <string name="title_activity_gallery_choose">GalleryChooseActivity</string>
+
+    <string name="ps_load_image_error">图片加载失败</string>
 </resources>

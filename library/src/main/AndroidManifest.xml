@@ -11,6 +11,9 @@
         <activity
             android:theme="@style/Theme.AppCompat.NoActionBar"
             android:name="net.soulwolf.image.picturelib.ui.GalleryChooseActivity"/>
+        <activity
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:name="net.soulwolf.image.picturelib.ui.CropPictureActivity"/>
     </application>
 
 </manifest>

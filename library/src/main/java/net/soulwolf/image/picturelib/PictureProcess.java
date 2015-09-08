@@ -35,6 +35,7 @@ import net.soulwolf.image.picturelib.exception.PictureCropException;
 import net.soulwolf.image.picturelib.listener.OnPicturePickListener;
 import net.soulwolf.image.picturelib.task.ImageLoadHandler;
 import net.soulwolf.image.picturelib.task.ImageLoadTask;
+import net.soulwolf.image.picturelib.ui.CropPictureActivity;
 import net.soulwolf.image.picturelib.ui.PictureChooseActivity;
 import net.soulwolf.image.picturelib.utils.Constants;
 import net.soulwolf.image.picturelib.utils.Utils;
@@ -142,7 +143,7 @@ public class PictureProcess {
                 }
             }
         }else if(requestCode == PictureProcess.CLIP_REQUEST_CODE){
-            if(resultCode == Activity.RESULT_OK && data != null){
+            if(resultCode == CropPictureActivity.RESULT_OK && data != null){
                 Bitmap bitmap = data.getParcelableExtra("data");
                 if(bitmap != null && Utils.saveBitmap(bitmap,mCropPath,mClipWidth,mClipHeight)){
                     onSuccess(mCropPath);
@@ -194,17 +195,8 @@ public class PictureProcess {
 
     protected void corpPicture(File path) {
         this.mCropPath = getCropPath();
-        Intent intent = new Intent("com.android.camera.action.CROP");
+        Intent intent = new Intent(mContext, CropPictureActivity.class);
         intent.setDataAndType(Uri.fromFile(path), "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        //intent.putExtra("outputX", mClipWidth);
-        //intent.putExtra("outputY", mClipHeight);
-        intent.putExtra("scale", true);
-        intent.putExtra("return-data", true);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        intent.putExtra("noFaceDetection", true); // no face detection
         startActivityForResult(intent, CLIP_REQUEST_CODE);
     }
 

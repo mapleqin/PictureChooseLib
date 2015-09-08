@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/pc_default_pager"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/pl_title_bar_layout"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.edmodo.cropper.CropImageView
+            android:id="@+id/pi_crop_image_view"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"/>
+
+        <ProgressBar
+            android:id="@+id/pi_crop_image_pro"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Base.Widget.AppCompat.ProgressBar"/>
+
+    </FrameLayout>
+
+</LinearLayout>
