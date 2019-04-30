@@ -1,7 +1,7 @@
 # PictureChooseLib
 This is a picture select Android library that supports camera to take pictures, picture gallery multiple choice, image shearing！
 
-For more information please see <a href='https://amphiaraus.org/PictureChooseLib'>the website</a>
+For more information please see <a href='https://www.mapleqin.org/PictureChooseLib'>the website</a>
 
 ## Screenshots
 ![Sample1](https://img.alicdn.com/imgextra/i2/1025192026/TB25BJndVXXXXbmXpXXXXXXXXXX_!!1025192026.jpg_310x310.jpg)
